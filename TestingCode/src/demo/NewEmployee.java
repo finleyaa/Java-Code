@@ -10,13 +10,14 @@ import java.awt.event.WindowEvent;
 @SuppressWarnings("serial")
 public class NewEmployee extends Frame implements ActionListener{
 	private static boolean truefalse = false;
-	private static TextField tFName = new TextField(20);
 	private static TextField tLName = new TextField(20);
 	private static TextField tJob = new TextField(20);
 	private static TextField tSalary = new TextField(20);
 	private static boolean loopvar = true;
 	private static Frame f = new Frame();
 	private static int EmployeeID = 1;
+	private static TextField tFName = new TextField(20);
+	private static String setTitle = System.getProperty("title");
 	// GUI
 	NewEmployee(){
 		Label lID = new Label("Employee ID: " + EmployeeID);
@@ -44,7 +45,7 @@ public class NewEmployee extends Frame implements ActionListener{
 		f.add(tSalary);
 		f.add(b);
 		f.setExtendedState(MAXIMIZED_BOTH);
-		f.setTitle("New Employee");
+		f.setTitle(setTitle);
 		f.setLayout(new FlowLayout());
 		f.setVisible(true);
 		f.pack();
@@ -53,7 +54,7 @@ public class NewEmployee extends Frame implements ActionListener{
 	synchronized static boolean loop(){
 		return loopvar;
 	}
-	public static void main(String[] args) throws SQLException, ClassNotFoundException{
+	public static void main(String[] args) throws SQLException, ClassNotFoundException{ 
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/testdatabase", "root", "$Password1$");
 		String sql = "SELECT ID FROM employees ORDER BY ID DESC LIMIT 1";

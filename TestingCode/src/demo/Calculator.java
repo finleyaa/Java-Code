@@ -31,7 +31,7 @@ public class Calculator {
 			System.out.println(Math.pow(num1, num2));
 			break;
 		case("//"):
-			System.out.println(Math.sqrt(num1));
+			System.out.println(Math.sqrt(num2));
 			break;
 		// Error case.
 		default:
