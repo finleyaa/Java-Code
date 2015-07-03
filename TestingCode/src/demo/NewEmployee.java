@@ -15,13 +15,11 @@ public class NewEmployee extends Frame implements ActionListener{
 	private static TextField tJob = new TextField(20);
 	private static TextField tSalary = new TextField(20);
 	private static boolean loopvar = true;
+	private static Frame f = new Frame();
+	private static int EmployeeID = 1;
 	// GUI
-	void connect() throws SQLException{
-		@SuppressWarnings("unused")
-		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/testdatabase", "root", "$Password1$");
-	}
 	NewEmployee(){
-		Frame f = new Frame();
+		Label lID = new Label("Employee ID: " + EmployeeID);
 		Label lFName = new Label("First Name: ");
 		Label lLName = new Label("Last Name: ");
 		Label lJob = new Label("Job: ");
@@ -35,6 +33,7 @@ public class NewEmployee extends Frame implements ActionListener{
 	     }
 		);
 		
+		f.add(lID);
 		f.add(lFName);
 		f.add(tFName);
 		f.add(lLName);
@@ -55,22 +54,28 @@ public class NewEmployee extends Frame implements ActionListener{
 		return loopvar;
 	}
 	public static void main(String[] args) throws SQLException, ClassNotFoundException{
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/testdatabase", "root", "$Password1$");
+		String sql = "SELECT ID FROM employees ORDER BY ID DESC LIMIT 1";
+		Statement stmt = connection.createStatement();
+		ResultSet ID = stmt.executeQuery(sql);
+		while(ID.next()){
+			EmployeeID = ID.getInt("ID");
+			EmployeeID += 1;
+		}
 		@SuppressWarnings("unused")
 		NewEmployee n = new NewEmployee();
 		while (loop()){
 			if (NewEmployee.truefalse == true){
-				System.out.println("Connection created.");
-				Class.forName("com.mysql.jdbc.Driver");
-				Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/testdatabase", "root", "$Password1$");
 				String First_name = (NewEmployee.tFName).getText();
 				String Last_name = (NewEmployee.tLName).getText();
 				String Job = (NewEmployee.tJob).getText();
 				String Salary = (NewEmployee.tSalary).getText();
-				String sql = "INSERT INTO employees(First_name, Last_name, Job, Salary_£PerYear, Join_date)" + 
+				String sql1 = "INSERT INTO employees(First_name, Last_name, Job, Salary_£PerYear, Join_date)" + 
 					  "VALUES(\"" + First_name + "\", \"" + Last_name + "\", \"" + Job + "\", \"" + Salary + "\", CURDATE())";
 				Statement update = connection.createStatement();
 				@SuppressWarnings("unused")
-				int rs = update.executeUpdate(sql);
+				int rs = update.executeUpdate(sql1);
 				System.out.println("Update Complete.");
 				System.exit(1);
 			}
